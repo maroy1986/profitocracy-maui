@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using AndroidX.Work;
 using Profitocracy.Mobile.Platforms.Android.Work;
 
 namespace Profitocracy.Mobile;
