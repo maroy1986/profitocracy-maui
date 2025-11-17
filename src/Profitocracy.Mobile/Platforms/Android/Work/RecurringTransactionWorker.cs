@@ -1,4 +1,5 @@
-﻿using Android.Content;
+#if ANDROID
+using Android.Content;
 using Android.Util;
 using AndroidX.Work;
 using Profitocracy.Core.Domain.Abstractions.Services;
@@ -7,9 +8,13 @@ using Profitocracy.Mobile.Utils;
 
 namespace Profitocracy.Mobile.Platforms.Android.Work;
 
-public class RecurringTransactionWorker(Context context, WorkerParameters workerParams) : Worker(context, workerParams)
+public class RecurringTransactionWorker : Worker
 {
     public const string WorkerName = "RecurringTransactionWorker";
+
+    public RecurringTransactionWorker(Context context, WorkerParameters workerParams) : base(context, workerParams)
+    {
+    }
 
     public override Result DoWork()
     {
@@ -54,3 +59,10 @@ public class RecurringTransactionWorker(Context context, WorkerParameters worker
         return Result.InvokeSuccess();
     }
 }
+#else
+// Fallback stub so code using this type compiles on non-Android targets
+namespace Profitocracy.Mobile.Platforms.Android.Work
+{
+    public class RecurringTransactionWorker { }
+}
+#endif

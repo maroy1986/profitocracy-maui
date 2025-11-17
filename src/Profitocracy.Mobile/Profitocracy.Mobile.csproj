@@ -65,9 +65,13 @@
     <!-- Enable the source generator for all resx files in the project -->
     <AdditionalFiles Include="**/*.resx" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
-    <PackageReference Include="Xamarin.AndroidX.Work.Runtime">
-      <Version>2.10.2</Version>
-    </PackageReference>
+  <ItemGroup Condition="$([System.String]::Contains('$(TargetFramework)','android'))">
+    <PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.9.0.1" />
+  </ItemGroup>
+  <ItemGroup Condition="$([System.String]::Contains('$(TargetFrameworks)','android'))">
+    <PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.9.0.1" />
+  </ItemGroup>
+  <ItemGroup Condition="$([System.String]::Contains('$(TargetFramework)','android')) == 'false' and $([System.String]::Contains('$(TargetFrameworks)','android')) == 'false'">
+    <Compile Remove="Platforms\Android\**\*.cs" />
   </ItemGroup>
 </Project>

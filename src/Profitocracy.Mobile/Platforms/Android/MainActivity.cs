@@ -1,7 +1,11 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+
+#if ANDROID
+using AndroidX.Work;
 using Profitocracy.Mobile.Platforms.Android.Work;
+#endif
 
 namespace Profitocracy.Mobile;
 
@@ -16,6 +20,7 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
 
+#if ANDROID
         // Initialize any platform-specific services or configurations here
         var repeatInterval =
 #if DEBUG
@@ -26,10 +31,11 @@ public class MainActivity : MauiAppCompatActivity
 
         var recurringTransactionWorkRequest = PeriodicWorkRequest.Builder
             .From<RecurringTransactionWorker>(repeatInterval).AddTag(RecurringTransactionWorker.WorkerName)
-            .SetConstraints(new Constraints.Builder().SetRequiresBatteryNotLow(true)
+            .SetConstraints(new AndroidX.Work.Constraints.Builder().SetRequiresBatteryNotLow(true)
                 .SetRequiresStorageNotLow(true)
                 .Build())
             .Build();
         WorkManager.GetInstance(this).Enqueue(recurringTransactionWorkRequest);
+#endif
     }
 }
